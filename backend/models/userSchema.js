@@ -23,7 +23,8 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, "Please provide password!"],
         minLength: [8, "Password must be minimum 8 characters"],
-        maxLenght: [15, "Password cannot be more than 15 characters"]
+        maxLenght: [15, "Password cannot be more than 15 characters"],
+        select: false
     },
     role: {
         type: String,
