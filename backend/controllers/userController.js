@@ -1,7 +1,7 @@
 import { catchAsyncError } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
 import { User } from '../models/userSchema.js';
-import { sendToken} from '../utils/jwtToken.js';
+import { sendToken } from '../utils/jwtToken.js';
 
 export const register = catchAsyncError(async (req, res, next) => {
 
@@ -18,7 +18,7 @@ export const register = catchAsyncError(async (req, res, next) => {
         name,
         email,
         phone,
-        role, 
+        role,
         password,
     });
     sendToken(user, 200, "User registered successfully!", res);
@@ -31,15 +31,16 @@ export const login = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Please provide email ,password or role", 400));
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
         return next(new ErrorHandler("Invalid email or password", 400));
     }
 
     const isPasswordMatched = await user.comparePassword(password);
+
     if (!isPasswordMatched) {
-        return next(new ErrorHandler("Invalid email or password", 400));
+        return next(new ErrorHandler("Invalid  email or password", 400));
     }
     if (user.role != role) {
         return next(new ErrorHandler("User with this role not found", 400));
