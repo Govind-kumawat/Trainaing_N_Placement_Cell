@@ -16,7 +16,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
     const { role } = req.user;
 
     if (role === "Job Seeker") {
-        return next(new ErrorHandler("Job Seeker not allowed to post a job!", 400));
+        return next(new ErrorHandler("Job Seeker not allowed to access this resource!", 400));
     }
 
     const { title, eligibility, experience, description, category, country, city, fixedSalary, salaryFrom, salaryTo } = req.body;
@@ -41,5 +41,60 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         success: true,
         message: "Job posted successfully!",
         job
-    })
-})
+    });
+});
+
+export const update = catchAsyncError(async (req, res, next) => {
+    const { role } = req.user;
+
+    if (role === "Job Seeker") {
+        return next(new ErrorHandler("Job Seeker not allowed to access this resource!", 400));
+    }
+
+    const { id } = req.params;
+    let job = await Job.findById(id);
+
+    if (!job) {
+        return next(new ErrorHandler("Oop's job not found!", 404));
+    }
+
+    job = await Job.findByIdAndUpdate(id, req.body, {
+        new: true,
+        findAndModify: false,
+        runValidators: true
+    });
+    res.status(200).json({
+        success: true,
+        job,
+        message: "Job updated successfully!"
+    });
+});
+
+export const deleteJob = catchAsyncError(async (req, res, next) => {
+    const { role } = req.user;
+
+    if (!role) {
+        return next(new ErrorHandler("Job Seeker is not allowed to access this resource!", 400));
+    }
+
+    const { id } = req.params;
+    let job = await Job.findById(id);
+    if (!job) {
+        return next(new ErrorHandler("Oop's, Job not found!", 400));
+    }
+    await job.deleteOne();
+    res.status(200).json({
+        success: true,
+        message: "Job deleted successfully!",
+    });
+});
+
+export const getMyJobs = catchAsyncError(async (req, res, next) => {
+    const { role } = req.user;
+    
+    if (!role) {
+        return next(new ErrorHandler("Job Seeker is not allowed to access this resource!", 400));
+    }
+    
+    const { id } = req.
+});
