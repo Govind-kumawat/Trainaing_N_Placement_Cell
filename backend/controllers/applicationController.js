@@ -57,7 +57,7 @@ export const applyForjob = catchAsyncError(async (req, res, next) => {
 
     const { name, email, phone, adress, resume, applicantId } = req.body;
 
-    if (!name || !email || !phone || !adress || !resume || !applicantId) {
+    if (!name || !email || !phone || !adress || !applicantId) {
         return next(new ErrorHandler("Please provide required details!", 400));
     }
 
