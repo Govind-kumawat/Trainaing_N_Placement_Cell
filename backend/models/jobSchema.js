@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const jobSchema = mongoose.Schema({
+const jobSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, "Please provide title!"],

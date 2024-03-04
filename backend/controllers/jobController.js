@@ -91,10 +91,16 @@ export const deleteJob = catchAsyncError(async (req, res, next) => {
 
 export const getMyJobs = catchAsyncError(async (req, res, next) => {
     const { role } = req.user;
-    
+
     if (!role) {
         return next(new ErrorHandler("Job Seeker is not allowed to access this resource!", 400));
     }
-    
-    const { id } = req.
+
+    const myjobs = await Job.find({ postedBy: req.user._id });
+
+    res.status(200).json({
+        success: true,
+        myjobs,
+        message: "Jobs fetched successfully!"
+    });
 });
