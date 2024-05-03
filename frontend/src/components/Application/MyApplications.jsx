@@ -120,7 +120,7 @@ const MyApplications = () => {
 
 export default MyApplications;
 
-const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
+const JobSeekerCard = (element, deleteApplication, openModal) => {
   return (
     <>
       <div className="job_seeker_card">
@@ -158,7 +158,7 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
   );
 };
 
-const EmployerCard = ({ element, openModal }) => {
+const EmployerCard = (element, openModal) => {
   return (
     <>
       <div className="job_seeker_card">

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ResumeModal = ({ imageUrl, onClose }) => {
+const ResumeModal = (imageUrl, onClose) => {
   return (
     <div className="resume-modal">
       <div className="modal-content">
